@@ -1,0 +1,17 @@
+version: '2'
+services:
+  shopfront:
+    image: shekhar/shopfront
+    ports:
+    - "8010:8010"
+    links:
+    - productcatalogue
+    - stockmanager
+  productcatalogue:
+    image: shekhar/productcatalogue
+    ports:
+    - "8020:8020"
+  stockmanager:
+    image: shekhar/stockmanager
+    ports:
+    - "8030:8030"

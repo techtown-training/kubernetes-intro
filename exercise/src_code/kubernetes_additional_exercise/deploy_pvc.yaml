@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: userservice
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: userservice
+    spec:
+      containers:
+      - image: tomcat
+        name: userservice
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - mountPath: /usr/local/tomcat/webapps/user-service-1.0.war
+          name: user-service-war
+      volumes:
+      - name: user-service-war
+        persistentVolumeClaim:
+          claimName: user-service-war-pv-claim
+

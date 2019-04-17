@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: soaktest
+spec:
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: soaktest
+    spec:
+      containers:
+      - name: soaktest
+        image: nickchase/soaktest
+        ports:
+        - containerPort: 80
+

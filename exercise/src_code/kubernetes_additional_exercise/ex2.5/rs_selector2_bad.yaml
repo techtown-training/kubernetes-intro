@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: ReplicaSet
+metadata:
+  name: soaktestrsbad
+spec:
+  replicas: 3
+  selector:
+   matchExpressions:
+     - {key: app, operator: In, values: [soaktestrs, soaktestrs, soaktest]}
+     - {key: tier, operator: NotIn, values: [production]}
+  template:
+    metadata:
+      labels:
+        app: soaktestrspq
+        tier: prod 
+    spec:
+      containers:
+      - name: soaktestrs
+        image: nickchase/soaktest
+        ports:
+        - containerPort: 80
+
+

@@ -1,0 +1,9 @@
+# docker build -f Dockerfile.dataloader -t java_mvn_redis_loader:1.0 .
+FROM maven
+
+RUN apt-get update
+RUN mkdir /code
+ADD . /code
+WORKDIR /code/restful-test
+
+CMD ["mvn", "clean", "install", "-U"]

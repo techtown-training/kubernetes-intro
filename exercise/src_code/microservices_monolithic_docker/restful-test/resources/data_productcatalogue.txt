@@ -1,0 +1,6 @@
+@header: id, name, price
+1, Widget, 1.20
+2, Sprocket, 4.10
+3, Anvil, 45.50
+4, Cogs, 1.80
+5, Multitool, 154.10

@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  retail_app:
+    image: tomcat
+    depends_on:
+      - "redis_loader"
+    volumes:
+     - ./restful-test/target/sample-monolithic-1.0.war:/usr/local/tomcat/webapps/sample-monolithic-1.0.war
+    ports:
+     - "8080:8080"
+
+  redis_loader:
+    image: java_mvn_redis_loader:1.0
+    container_name: redis_loader
+    command: mvn exec:java -Dexec.mainClass="com.app.startup.DataLoader"
+    depends_on:
+      - "redis"
+
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    ports:
+     - "6379:6379"
+#docker run -it -p 8080:8080 -v ~/restful-test/target/sample-monolithic-1.0.war:/usr/local/tomcat/webapps/sample-monolithic-1.0.war tomcat
