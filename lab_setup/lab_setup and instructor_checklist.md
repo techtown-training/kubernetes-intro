@@ -2,12 +2,7 @@
 
 ### Create instances
 
-- Select image `ami-09ae5ef93a75b002a` OR `microservices_kubernetes-bootcamp`
-- Type of instance required `t2.medium`
-- Enable `Auto-assign public IP`
-- 16G storage
-- Select `all-in-all` security group
-
+- Look for the building_kubernetes_aws_image.md file (also has parts of the 2.1 exercise to set up the Kubernetes set up)
 
 ### Number of Instances required
 1 per student
@@ -40,4 +35,5 @@ Three things are required to connect to AWS instance
 - <b>Password:</b> There is no password, ASPE will provide the Default.ppk or Default.pem file. To mention here, if you are using unix/mac machines to connect, you need pem file, set the permission to `400`
 - <b>IP:</b> ASPE will provide the IP address, for this course we need 1 instance per student
 
-For the microservice course, the instance will have Docker and kubernetes packages installed in it. But it doesnt have kubernetes master setup. That has been included in the mandatory exercise 2.1
+For the Kubernetes course, the instance will have Docker and kubernetes packages installed in it. 
+But it doesnt have kubernetes master setup. That has been included in the mandatory exercise 2.1

@@ -116,4 +116,3 @@ curl <cluster-ip>:80
 	- switch to the new context: kubectl config use-context frontend
 	* kubectl will now switch to new context and connect to master cluster. 
 	* Check kubectl config help to see different options to configure local kubectl [kubectl config --help]
-
