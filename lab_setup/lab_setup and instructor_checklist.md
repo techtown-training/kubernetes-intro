@@ -2,20 +2,22 @@
 
 ### Create instances
 
-- Look for the building_kubernetes_aws_image.md file (also has parts of the 2.1 exercise to set up the Kubernetes set up)
+- Create Ubuntu 16 instance on AWS, and follow exercise 2.1 (which will be done by the students in class)
+- Will also need provide the PPK and PEM keys to the students along with the IP address
 
 ### Number of Instances required
-1 per student
+1 per each student
+1 for the instructor
 
 
 ### Test connection and instance (for ASPE)
-Login to one of the instances and run command `kubectl --help` to verify if Docker runs properly
+Login to one of the instances and run command `kubectl --help` to verify if Docker runs properly (TAKE THE IP ADDRESS from ASPE)
 
 ### Test connection and instance (for clients)
 Following needs to be sent to the client to test their connection
 
-- IP address of one of the machines
-- Default.pem/ppk files
+- IP address of one of the machines (WILL BE PROVIDED BY THE ASPE)
+- Default.pem/ppk files (THE PEM AND PPK FILE WILL BE PROVIDED BY THE ASPE)
 - Word document with testing instruction
 ```
 Test_Instance_and_Connection.docx
