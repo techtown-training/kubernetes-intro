@@ -1,0 +1,8 @@
+.terraform
+.terraform.tfstate.lock.info
+terraform.tfstate
+terraform.tfstate.backup
+terraform.tfvars
+override.tf
+aws_creds.auto.tfvars
+playbooks/provision.retry

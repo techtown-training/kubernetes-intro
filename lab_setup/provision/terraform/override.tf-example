@@ -1,0 +1,12 @@
+### Override AWS AMI map
+
+# variable "aws_amis" {
+#   type        = "map"
+#   description = "Region to AMI map"
+#   default {
+#     "us-east-1" = "ami-0ac019f4fcb7cb7e6"
+#     "us-east-2" = "ami-0f65671a86f061fcd"
+#     "us-west-1" = "ami-063aa838bd7631e0b"
+#     "us-west-2" = "ami-0bbe6b35405ecebdb"
+#   }
+# }

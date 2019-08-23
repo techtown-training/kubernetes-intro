@@ -1,0 +1,89 @@
+---
+- name: '{{ hostname }} - Wait for ssh'
+  hosts: all
+  gather_facts: no
+  become: no
+  tasks:
+    - name: '{{ hostname }} - Waiting...'
+      local_action: wait_for port=22 host="{{ ip }}" search_regex=OpenSSH delay=10 timeout=360
+
+- name: '{{ hostname }} - Provision Instance'
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: '{{ hostname }} - update apt-cache'
+      raw: apt update -y
+    - name: '{{ hostname }} - install python-minimal'
+      raw: apt install python-minimal -y
+
+- name: '{{ hostname }} - Hostname and Upgrade'
+  hosts: all
+  tasks:
+    - name: '{{ hostname }} - hostname'
+      hostname:
+        name: "{{ hostname }}"
+    - name: '{{ hostname }} - upgrade'
+      apt:
+        upgrade: yes
+        update_cache: yes
+
+- name: '{{ hostname }} - Reboot the Instance'
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: '{{ hostname }} - Rebooting...'
+      shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+      async: 1
+      poll: 0
+
+- name: '{{ hostname }} - Wait for ssh'
+  hosts: all
+  gather_facts: no
+  become: no
+  tasks:
+    - name: '{{ hostname }} - Waiting...'
+      local_action: wait_for port=22 host="{{ ip }}" search_regex=OpenSSH delay=10 timeout=360
+
+- name: '{{ hostname }} - Docker'
+  hosts: all
+  tasks:
+    - name: '{{ hostname }} - Add Docker GPG key'
+      apt_key: url=https://download.docker.com/linux/ubuntu/gpg
+    - name: '{{ hostname }} - Add Docker APT repository'
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+    - name: '{{ hostname }} - Install docker-ce-cli'
+      apt:
+        name: docker-ce-cli={{ dockerversion }}
+        state: present
+        update_cache: yes
+    - name: '{{ hostname }} - Install docker-ce'
+      apt:
+        name: docker-ce={{ dockerversion }}
+        state: present
+        update_cache: yes
+    # - name: '{{ hostname }} - Install docker-compose'
+    #   apt:
+    #     name: docker-compose
+    #     state: present
+    #     update_cache: yes
+    - name: '{{ hostname }} - Start Docker'
+      service:
+        name: docker
+        state: started
+        enabled: yes
+    - name: '{{ hostname }} - Hold Docker CLI Version'
+      dpkg_selections:
+        name: docker-ce-cli
+        selection: hold
+    - name: '{{ hostname }} - Hold Docker Version'
+      dpkg_selections:
+        name: docker-ce
+        selection: hold
+    - name: '{{ hostname }} - Add ubuntu user to docker group'
+      user:
+        name: ubuntu
+        groups: docker
+        state: present
+      ignore_errors: yes
+...
