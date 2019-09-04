@@ -1,0 +1,17 @@
+# AWS
+# note: access_key and secret_key are set in ./aws_creds_auto.tfvars
+aws_region           = "us-west-2"
+aws_availabilityZone = "us-west-2a"
+aws_keyPairName      = "Default"
+aws_subnetCIDRblock  = "10.0.1.0/24"
+aws_vpcCIDRblock     = "10.0.0.0/16"
+aws_instance_type    = "t3.small"
+aws_volume_type      = "gp2"
+aws_volume_size      = "16"
+
+# ASPE
+aspe_courseID        = "KUBERNETES"
+aspe_sessionID       = "55555VCL"
+
+# Lab
+instanceCount        = 1
