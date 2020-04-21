@@ -8,7 +8,8 @@
 Create a deployment nginx
 
 ```
-kubectl run nginx-deployment --image nginx --port 80
+kubectl create deployment nginx-deployment --image=nginx
+kubectl scale deployment nginx-deployment --replicas=3
 ```
 
 Check the currently running pods, deployments, services and replica sets
