@@ -4,8 +4,8 @@ Create a Replication Controller from a file called rc.yaml (inside helper files)
 
 rc.yaml file is located in - https://github.com/techtown-training/microservices-bootcamp/blob/master/exercise/src_code/kubernetes_additional_exercise/ex2.5/rc.yaml
 
-Most of this structure should look familiar from our discussion of Deployments; we’ve got the name of the actual 
-Replication Controller (soaktestrc) and we’re designating that we should have 3 replicas, each of which are 
+Most of this structure should look familiar from our discussion of Deployments; we’ve got the name of the actual
+Replication Controller (soaktestrc) and we’re designating that we should have 3 replicas, each of which are
 defined by the template.  The selector defines how we know which pods belong to this Replication Controller.
 
 Now tell Kubernetes to create the Replication Controller based on that file:
@@ -35,7 +35,7 @@ Events:
   1m            1m              1       {replication-controller }                       Normal SuccessfulCreate Created pod: soaktestrc-ro2bl
 ```
 
-As we can see, we’ve got the Replication Controller, and there are 3 replicas (pods), of the 3 pods that we wanted. 
+As we can see, we’ve got the Replication Controller, and there are 3 replicas (pods), of the 3 pods that we wanted.
 All 3 of them are currently running.  You can also see the individual pods listed underneath, along with their names.  We added the --show-labels options and -l option for selecting by labels
 
 ```
@@ -76,12 +76,12 @@ As you can see, when you delete the Replication Controller, you also delete all 
 Next we’ll look at Replica Sets, but first let’s clean up:
 
 Replica Sets are a sort of hybrid, in that they are in some ways more powerful than Replication Controllers,
-and in others they are less powerful. Replica Sets are declared in essentially the same way as Replication Controllers, 
+and in others they are less powerful. Replica Sets are declared in essentially the same way as Replication Controllers,
 except that they have more options for the selector. Use the file rs.yaml for this part
 
 rs.yaml file is located in - https://github.com/techtown-training/microservices-bootcamp/blob/master/exercise/src_code/kubernetes_additional_exercise/ex2.5/rs.yaml
 
-In this case, it’s more or less the same as when we were creating the Replication Controller, 
+In this case, it’s more or less the same as when we were creating the Replication Controller,
 except we’re using matchLabels instead of label.  But we could just as easily have said (has matchExpressions):
 
 ```
@@ -134,7 +134,7 @@ soaktestrs-it2hf   1/1       Running   0          1m
 soaktestrs-kimmm   1/1       Running   0          1m
 ```
 
-As we can see, the output is pretty much the same as for a Replication Controller (except for the selector), 
+As we can see, the output is pretty much the same as for a Replication Controller (except for the selector),
 and for most intents and purposes, they are similar.  
 
 Exploration :- To see the errors when the labels and selectors does not match , feel free to try out the other 2 replica sets
@@ -145,15 +145,15 @@ kubectl create -f rs_selector2.yaml
 kubectl get po,rs --show-labels
 ```
 
-and this gives an error 
+and this gives an error
 
 ```
-kubectl create -f rs_selector2_bad.yaml 
+kubectl create -f rs_selector2_bad.yaml
 Error :- The ReplicaSet "soaktestrsbad" is invalid: spec.template.metadata.labels: Invalid value: map[string]string{"app":"soaktestrspq", "tier":"prod"}: `selector` does not match template `labels`
 ```
 
 
-The major difference is that the rolling-update command (we will see an example for this) works with Replication Controllers, 
+The major difference is that the rolling-update command (we will see an example for this) works with Replication Controllers,
 but won’t work with a Replica Set.  This is because Replica Sets are meant to be used as the backend for Deployments.
 
 Let’s clean up before we move on.
@@ -209,7 +209,7 @@ Events:
   38s           38s             1       {deployment-controller }                        Normal  ScalingReplicaSet        Scaled up replica set soaktest-3914185155 to 3
   36s           36s             1       {deployment-controller }                        Normal  ScalingReplicaSet        Scaled up replica set soaktest-3914185155 to 5
 ```
-  
+
 As you can see, rather than listing the individual pods, Kubernetes shows us the Replica Set.  
 Notice that the name of the Replica Set is the Deployment name and a hash value.
 
@@ -219,15 +219,14 @@ We can check the pods for the deployment (and also behind the scenes the dpeloym
 Check all deployments, pods, RCs, RSs
 # kubectl get deploy,po,rs,rc
 NAME                        READY     STATUS    RESTARTS   AGE
-soaktest-3914185155-7gyja   1/1       Running   0          2m
-soaktest-3914185155-lrm20   1/1       Running   0          2m
-soaktest-3914185155-o28px   1/1       Running   0          2m
-soaktest-3914185155-ojzn8   1/1       Running   0          2m
-soaktest-3914185155-r2pt7   1/1       Running   0          2m
+pod/soaktest-3914185155-7gyja   1/1       Running   0          2m
+pod/soaktest-3914185155-lrm20   1/1       Running   0          2m
+pod/soaktest-3914185155-o28px   1/1       Running   0          2m
+pod/soaktest-3914185155-ojzn8   1/1       Running   0          2m
+pod/soaktest-3914185155-r2pt7   1/1       Running   0          2m
 
 You can see that there is 1 deployment, 5 pods (becaue of 5 replication), 1 replica set BUT no replication controller.
 This is because deployment created replica set but not replication controller
 ```
 
 Ref:- https://www.mirantis.com/blog/kubernetes-replication-controller-replica-set-and-deployments-understanding-replication-options/
-

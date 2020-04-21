@@ -1,9 +1,12 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
   name: soaktestrsbad
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+      app: soaktestrspq
   selector:
    matchExpressions:
      - {key: app, operator: In, values: [soaktestrs, soaktestrs, soaktest]}
@@ -12,12 +15,10 @@ spec:
     metadata:
       labels:
         app: soaktestrspq
-        tier: prod 
+        tier: prod
     spec:
       containers:
       - name: soaktestrs
         image: nickchase/soaktest
         ports:
         - containerPort: 80
-
-
