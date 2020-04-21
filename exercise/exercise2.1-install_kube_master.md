@@ -60,14 +60,15 @@ Let's test it.
 
 #### pod scheduling won't work. Let's make it work
 ```bash
-kubectl run nginx --image=nginx --replicas=3
+kubectl create deployment nginx --image=nginx
+kubectl scale deployment nginx --replicas=3
 
 # get the <ip-x-x-x-x> by running the command [kubectl get nodes -o wide]
 kubectl describe nodes <ip-x-x-x-x>
 # check the output of describe -- you will find "Taints: node-role.kubernetes.io/master:NoSchedule"
 
 # delete the deployment we just created
-kubectl delete deployment.extensions/nginx
+kubectl delete deployment/nginx
 
 # use master for scheduling
 ip=`kubectl get nodes | grep master | awk -F" " '{print $1}'`
@@ -77,7 +78,8 @@ kubectl taint nodes $ip node-role.kubernetes.io/master:NoSchedule-
 kubectl describe nodes <ip-x-x-x-x>
 
 # schedule pod again (via deployment)
-kubectl run nginx --image=nginx --replicas=3
+kubectl create deployment nginx --image=nginx
+kubectl scale deployment nginx --replicas=3
 
 # check pods and deployment, you will find it now.
 kubectl get pods -o wide
@@ -86,7 +88,7 @@ kubectl get deployment -o wide
 
 #### How to access nginx server? - Need to expose as service
 ```bash
-kubectl expose deployment nginx --port=80 --type=LoadBalancer
+kubectl expose deployment nginx --port=80 --type=NodePort
 kubectl get deployments,svc -o wide
 ```
 
@@ -114,6 +116,5 @@ curl <cluster-ip>:80
 	* kubectl will still pull local kube cluster information if you run "kubectl get" commands
 	- create a context: kubectl config set-context frontend --cluster=master --namespace=frontend
 	- switch to the new context: kubectl config use-context frontend
-	* kubectl will now switch to new context and connect to master cluster. 
+	* kubectl will now switch to new context and connect to master cluster.
 	* Check kubectl config help to see different options to configure local kubectl [kubectl config --help]
-

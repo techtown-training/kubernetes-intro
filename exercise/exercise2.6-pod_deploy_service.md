@@ -17,10 +17,10 @@ Check the currently running pods, deployments, services and replica sets
 kubectl get po,deploy,svc,rs -o wide
 ```
 
-Expose the Deployment as a Service of Loadbalancer 
+Expose the Deployment as a Service of Loadbalancer
 
 ```
-kubectl expose deploy/nginx-deployment --type=LoadBalancer --name nginx-service 
+kubectl expose deploy/nginx-deployment --type=NodePort --name nginx-service
 ```
 
 Check the currently running pods, deployments, services and replica sets
@@ -29,14 +29,14 @@ Check the currently running pods, deployments, services and replica sets
 kubectl get po,deploy,svc,rs -o wide
 ```
 
-### Check for the nginx application from url , using the IP 
+### Check for the nginx application from url , using the IP
 Do a describe on the nginx service , using the IP try doing a curl for that port
 
 ```
 kubectl describe svc nginx-service
 ```
 
-do a 
+do a
 
 ```
 curl <ip_address>:<port_number>
@@ -175,5 +175,3 @@ kubectl delete service/nginx-service
 Ref:- https://kubernetes.io/docs/concepts/overview/object-management-kubectl/overview/,
 <br>
 Ref:- https://www.linkedin.com/learning/learning-kubernetes/next-steps
-
-
