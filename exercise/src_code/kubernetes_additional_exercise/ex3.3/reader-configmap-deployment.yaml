@@ -1,9 +1,12 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: logreader-dynamic
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      name: logreader-dynamic
   template:
     metadata:
       labels:
@@ -18,4 +21,3 @@ spec:
             configMapKeyRef:
               name: logger #Read from a configmap called log-level
               key: log_level  #Read the key called log_level
-
