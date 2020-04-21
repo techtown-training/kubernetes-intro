@@ -46,7 +46,7 @@ curl <ip_address>:<port_number>
 # Create a deployment with the name blue  (Imperative management using config files)
 
 ```
-wget https://github.com/techtown-training/kubernetes-intro/blob/master/exercise/src_code/kubernetes_additional_exercise/ex2.6/blue.yaml
+wget https://raw.githubusercontent.com/techtown-training/kubernetes-intro/master/exercise/src_code/kubernetes_additional_exercise/ex2.6/blue.yaml
 ```
 
 ```
@@ -69,7 +69,6 @@ Check the currently running pods, deployments, services and replica sets ( we sh
 <br>
 *** Note - editing a running resource will change in the resource, but that will not change your Config file. It's a good practise to make changes in the Config file for maintainability. EDIT options are mostly used for quick debugging.
 
-
 ```
  kubectl get po,deploy,svc,rs -o wide
 ```
@@ -77,8 +76,9 @@ Check the currently running pods, deployments, services and replica sets ( we sh
 # Use the pod.yaml file and deploy.yaml files (Examples of Imperative commands)
 
 ```
-wget https://github.com/techtown-training/kubernetes-intro/blob/master/exercise/src_code/kubernetes_additional_exercise/ex2.6/sample_pod.yaml
+wget https://raw.githubusercontent.com/techtown-training/kubernetes-intro/master/exercise/src_code/kubernetes_additional_exercise/ex2.6/sample_pod.yaml
 ```
+
 Create a pod using the sample_pod.yaml file
 
 ```
@@ -110,11 +110,15 @@ Now delete the blue, deployment and the pod that was created
 
 ```
 kubectl delete pod <blue_pod_name>
- Deleting the pod will re-create it again.
-
-kubectl delete deploy blue
-This will delete all pods, rs and deploy associated with blue.
 ```
+
+Deleting the pod will re-create it again.
+
+```
+kubectl delete deploy blue
+```
+
+This will delete all pods, rs and deploy associated with blue.
 
 Check for the running pods, deploy, svc, rs
 
@@ -127,33 +131,42 @@ kubectl get po,deploy,svc,rs -o wide
 Create a Deployment using the red.yaml file, but now using apply
 
 ```
-wget https://github.com/techtown-training/kubernetes-intro/blob/master/exercise/src_code/kubernetes_additional_exercise/ex2.6/red.yaml
+wget https://raw.githubusercontent.com/techtown-training/kubernetes-intro/master/exercise/src_code/kubernetes_additional_exercise/ex2.6/red.yaml
 ```
 
 ```
 kubectl apply -f red.yaml
 ```
+
 Now go and edit the file and change the replicas from 1 to 3, using vi or nano
+
 ```
 vim red.yaml
 ```
+
 or
+
 ```
 nano red.yaml
 ```
+
 # change the replicas to 3, save and come out
-```
+
 Check for the running pods, deploy, svc, rs
+
 ```
 kubectl get po,deploy,svc,rs -o wide
 ```
+
 Now apply these changes using the apply command
+
 ```
 kubectl apply -f red.yaml
 Replica 3 will be applied...
 ```
 
 Let's describe the deploy red now
+
 ```
 kubectl describe deploy red
 At the bottom, see the changes in the "Events" section. It should show something like  below
@@ -165,17 +178,21 @@ Events:
 ```
 
 Check for the running pods, deploy, svc, rs
+
 ```
 kubectl get po,deploy,svc,rs -o wide
 ```
 
 Now delete the red,blue deployment and see the pods, and deployment going down
+
 ```
 kubectl delete deploy blue
 
 kubectl delete deploy red
 ```
+
 Check for the running pods, deploy, svc, rs
+
 ```
 kubectl get pod -o wide -w
 # -w is like watch option to see see the changes happening
@@ -189,6 +206,6 @@ kubectl delete deployment.apps/nginx-deployment
 kubectl delete service/nginx-service
 ```
 
-Ref:- https://kubernetes.io/docs/concepts/overview/object-management-kubectl/overview/,
+Ref:- https://kubernetes.io/docs/concepts/overview/object-management-kubectl/overview/
 <br>
 Ref:- https://www.linkedin.com/learning/learning-kubernetes/next-steps
