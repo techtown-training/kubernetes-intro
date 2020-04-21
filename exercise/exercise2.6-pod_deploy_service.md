@@ -21,7 +21,7 @@ kubectl get po,deploy,svc,rs -o wide
 Expose the Deployment as a Service of Loadbalancer
 
 ```
-kubectl expose deploy/nginx-deployment --type=NodePort --name nginx-service
+kubectl expose deploy/nginx-deployment --type=NodePort --name nginx-service --port 80
 ```
 
 Check the currently running pods, deployments, services and replica sets
@@ -44,6 +44,10 @@ curl <ip_address>:<port_number>
 ```
 
 # Create a deployment with the name blue  (Imperative management using config files)
+
+```
+wget https://github.com/techtown-training/kubernetes-intro/blob/master/exercise/src_code/kubernetes_additional_exercise/ex2.6/blue.yaml
+```
 
 ```
 kubectl create -f blue.yaml
@@ -72,7 +76,10 @@ Check the currently running pods, deployments, services and replica sets ( we sh
 
 # Use the pod.yaml file and deploy.yaml files (Examples of Imperative commands)
 
-Create a pod using the blue.yaml file
+```
+wget https://github.com/techtown-training/kubernetes-intro/blob/master/exercise/src_code/kubernetes_additional_exercise/ex2.6/sample_pod.yaml
+```
+Create a pod using the sample_pod.yaml file
 
 ```
 kubectl create -f sample_pod.yaml
@@ -118,13 +125,22 @@ kubectl get po,deploy,svc,rs -o wide
 # One example of Declarative command (use of kubectl apply)
 
 Create a Deployment using the red.yaml file, but now using apply
+
+```
+wget https://github.com/techtown-training/kubernetes-intro/blob/master/exercise/src_code/kubernetes_additional_exercise/ex2.6/red.yaml
+```
+
 ```
 kubectl apply -f red.yaml
 ```
-Now go and edit the file and change the replicas from 1 to 3, using vi
+Now go and edit the file and change the replicas from 1 to 3, using vi or nano
 ```
-vi red.yaml
-
+vim red.yaml
+```
+or
+```
+nano red.yaml
+```
 # change the replicas to 3, save and come out
 ```
 Check for the running pods, deploy, svc, rs
