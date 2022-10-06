@@ -22,7 +22,7 @@ sudo apt-get update && apt-get -y install docker.io apt-transport-https
 sudo systemctl enable docker.service
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
 sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
-apt-get install -y kubelet kubeadm
+sudo apt-get install -y kubelet kubeadm
 ```
 
 #### Initiate a new Kubernetes cluster on the Master node (do it only for the master node)
