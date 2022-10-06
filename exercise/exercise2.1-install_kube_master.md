@@ -48,6 +48,12 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
 ```
 
+#### Allow pods to be scheduled on the master node
+```bash
+export K8SMASTERNODE=$(kubectl get nodes | grep master | cut -d " " -f 1)
+kubectl taint nodes $K8SMASTERNODE node-role.kubernetes.io/master-
+```
+
 #### Verify kubernetes master
 ```bash
 kubectl get nodes -o wide
