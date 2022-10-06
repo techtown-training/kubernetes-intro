@@ -18,21 +18,23 @@ ssh -i <path_to_pen_file> <username>@<FQDN>
 
 #### Install docker, kubernetes
 ```bash
-sudo su -
-apt-get update && apt-get -y install docker.io apt-transport-https
-systemctl enable docker.service
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
-apt-get update -y
+sudo apt-get update && apt-get -y install docker.io apt-transport-https
+sudo systemctl enable docker.service
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
+sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
 apt-get install -y kubelet kubeadm
 ```
 
-#### Configure Master node (do it only for the master node)
+#### Initiate a new Kubernetes cluster on the Master node (do it only for the master node)
 ```bash
 kubeadm init --pod-network-cidr=10.244.0.0/16
+```
+
+#### Configure kubectl
+```
 mkdir -p $HOME/.kube
-cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-chown $(id -u):$(id -g) $HOME/.kube/config
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
 #### overlay network plugin for Master (do this only in the master node)
