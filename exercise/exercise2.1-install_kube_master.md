@@ -54,6 +54,41 @@ export K8SMASTERNODE=$(kubectl get nodes | grep master | cut -d " " -f 1)
 kubectl taint nodes $K8SMASTERNODE node-role.kubernetes.io/master-
 ```
 
+# Add Persistent storage with OpenEBS
+
+Following are the basic steps to setup OpenEBS as a Persistent Volume provider for Kubernetes.  Much more info can be found on the [official documentation](https://docs.openebs.io/).
+
+## iSCSI
+OpenEBS provides block volume support through the iSCSI protocol. Therefore, the iSCSI client (initiator) presence on all Kubernetes nodes is required. Choose the platform below to find the steps to verify if the iSCSI client is installed and running or to find the steps to install the iSCSI client.
+
+```bash
+sudo apt-get install -y open-iscsi
+sudo systemctl enable iscsid
+sudo systemctl start iscsid
+```
+
+Verify that the initiator name is configured and the iSCSI services is running.
+```bash
+sudo cat /etc/iscsi/initiatorname.iscsi
+systemctl status iscsid
+```
+## Install OpenEBS
+
+OpenEBS can be installed on an existing Kubernetes cluster by applying the openebs-operator.yaml file.
+```bash
+kubectl apply -f https://openebs.github.io/charts/openebs-operator.yaml
+```
+
+We can verify the status of tho OpenEBS pods by looking at the pods in the openebs namespace.
+```bash
+kubectl get pods -n openebs -o wide
+```
+
+To set 'openebs-hostpath' as the default storageClass run this command.
+```bash
+kubectl patch storageclass openebs-hostpath -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+```
+
 #### Verify kubernetes master
 ```bash
 kubectl get nodes -o wide
