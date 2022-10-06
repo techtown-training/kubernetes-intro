@@ -19,12 +19,16 @@ ssh -i <path_to_pen_file> <username>@<FQDN>
 #### Install docker, kubernetes
 ```bash
 sudo apt-get update && sudo apt-get -y install docker.io apt-transport-https
-sudo systemctl enable docker.service
+```
+
+```bash
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
 sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+```
+
+```bash
 sudo apt install -y kubelet=1.19.2-00 kubeadm=1.19.2-00 kubectl=1.19.2-00 kubernetes-cni=0.8.7-00
 sudo swapoff -a
-
 ```
 
 #### Initiate a new Kubernetes cluster on the Master node (do it only for the master node)
@@ -41,8 +45,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 #### overlay network plugin for Master (do this only in the master node)
 ```bash
-export kubever=$(kubectl version | base64 | tr -d '\n')
-kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
+kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
 ```
 
 #### Verify kubernetes master
