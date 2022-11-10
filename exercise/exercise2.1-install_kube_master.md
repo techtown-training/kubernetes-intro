@@ -48,10 +48,63 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
 ```
 
-#### Allow pods to be scheduled on the master node
+
+#### Verify kubernetes master
 ```bash
+kubectl get nodes -o wide
+kubectl get pods --all-namespaces -o wide
+kubectl get pods,deployments --all-namespaces -o wide
+```
+
+#### check kube config file
+```bash
+cat .kube/config
+kubectl cluster-info
+```
+
+So far we have installed and configured the master node. But you won't be able to schedule pods yet. Because the cluster doesn't have any worker node, and in case you need just a single node cluster, your master node is not configured to schedule pods.
+
+Let's test it.
+
+#### pod scheduling won't work. Let's make it work
+```bash
+kubectl create deployment nginx --image=nginx
+kubectl scale deployment nginx --replicas=3
+
+# get the <ip-x-x-x-x> by running the command [kubectl get nodes -o wide]
+kubectl describe nodes <ip-x-x-x-x>
+# check the output of describe -- you will find "Taints: node-role.kubernetes.io/master:NoSchedule"
+
+# delete the deployment we just created
+kubectl delete deployment/nginx
+
+# use master for scheduling
 export K8SMASTERNODE=$(kubectl get nodes | grep master | cut -d " " -f 1)
 kubectl taint nodes $K8SMASTERNODE node-role.kubernetes.io/master-
+
+# describe master node again and check the difference. you will find "Taints: <none>"
+kubectl describe nodes <ip-x-x-x-x>
+
+# schedule pod again (via deployment)
+kubectl create deployment nginx --image=nginx
+kubectl scale deployment nginx --replicas=3
+
+# check pods and deployment, you will find it now.
+kubectl get pods -o wide
+kubectl get deployment -o wide
+```
+
+#### How to access nginx server? - Need to expose as service
+```bash
+kubectl expose deployment nginx --port=80 --type=NodePort
+kubectl get deployments,svc -o wide
+```
+
+#### verify nginx
+```bash
+curl <public-ip>:<exposed port>
+OR
+curl <cluster-ip>:80
 ```
 
 # Add Persistent storage with OpenEBS
@@ -89,63 +142,8 @@ To set 'openebs-hostpath' as the default storageClass run this command.
 kubectl patch storageclass openebs-hostpath -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 ```
 
-#### Verify kubernetes master
-```bash
-kubectl get nodes -o wide
-kubectl get pods --all-namespaces -o wide
-kubectl get pods,deployments --all-namespaces -o wide
-```
+---
 
-#### check kube config file
-```bash
-cat .kube/config
-kubectl cluster-info
-```
-
-So far we have installed and configured the master node. But you won't be able to schedule pods yet. Because the cluster doesn't have any worker node, and in case you need just a single node cluster, your master node is not configured to schedule pods.
-
-Let's test it.
-
-#### pod scheduling won't work. Let's make it work
-```bash
-kubectl create deployment nginx --image=nginx
-kubectl scale deployment nginx --replicas=3
-
-# get the <ip-x-x-x-x> by running the command [kubectl get nodes -o wide]
-kubectl describe nodes <ip-x-x-x-x>
-# check the output of describe -- you will find "Taints: node-role.kubernetes.io/master:NoSchedule"
-
-# delete the deployment we just created
-kubectl delete deployment/nginx
-
-# use master for scheduling
-ip=`kubectl get nodes | grep master | awk -F" " '{print $1}'`
-kubectl taint nodes $ip node-role.kubernetes.io/master:NoSchedule-
-
-# describe master node again and check the difference. you will find "Taints: <none>"
-kubectl describe nodes <ip-x-x-x-x>
-
-# schedule pod again (via deployment)
-kubectl create deployment nginx --image=nginx
-kubectl scale deployment nginx --replicas=3
-
-# check pods and deployment, you will find it now.
-kubectl get pods -o wide
-kubectl get deployment -o wide
-```
-
-#### How to access nginx server? - Need to expose as service
-```bash
-kubectl expose deployment nginx --port=80 --type=NodePort
-kubectl get deployments,svc -o wide
-```
-
-#### verify nginx
-```bash
-curl <public-ip>:<exposed port>
-OR
-curl <cluster-ip>:80
-```
 <br><br>
 ### Advanced 1: How to setup multi-node kube cluster - just discussion, no lab required
 > Install docker, kubeadm, kubelet in worker nodes - same as master <br>
