@@ -117,7 +117,7 @@ kubectl exec -ti my-nginx-3800858182-auusv /bin/bash
 Let's explore our nginx container a bit:
 
 ```
-$ ls -l /proc/1/exe 
+$ ls -l /proc/1/exe
 lrwxrwxrwx. 1 root root 0 Mar 14 22:57 /proc/1/exe -> /usr/sbin/nginx
 ```
 
@@ -322,7 +322,7 @@ cat my-nginx-new.yaml
 ```
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -416,7 +416,7 @@ cat my-nginx-typo.yaml
 ```
 
 ```
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -754,7 +754,7 @@ Endpoints:		10.244.40.229:5432
 Session Affinity:	None
 ```
 
-Seems like IP has been allocated and endpoints have been found. 
+Seems like IP has been allocated and endpoints have been found.
 
 **Creating Mattermost worker deployment**
 
@@ -764,7 +764,7 @@ cat mattermost/worker.yaml
 ```
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
