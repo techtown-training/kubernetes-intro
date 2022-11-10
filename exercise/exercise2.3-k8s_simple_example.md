@@ -5,7 +5,7 @@ Kubernetes 101 workshop - introduction to Kubernetes and basic concepts
 
 ## Part 1 Running nginx
 
-Everyone says that kubernetes is hard, however this proves otherwise!
+Everyone says that Kubernetes is hard, however this proves otherwise!
 Let's create nginx service.
 
 ```
@@ -95,7 +95,7 @@ that's rarely necessary.
 
 ### Pod Containers
 
-In our Nginx pod there's only one running container `my-nginx`, however as we've mentioned before we can have multiple
+In our nginx pod there's only one running container `my-nginx`, however as we've mentioned before we can have multiple
 containers running in single Pod.
 
 Our container exposes Port 80. Thanks to overlay network every container can expose the same port on the same machine, and they won't collide.
@@ -103,7 +103,7 @@ Our container exposes Port 80. Thanks to overlay network every container can exp
 We can enter pod container using handy `kubectl exec` command:
 
 ```
-kubectl exec -ti my-nginx-3800858182-auusv -c my-nginx -- /bin/bash
+kubectl exec -ti my-nginx-3800858182-auusv -c nginx -- /bin/bash
 ```
 
 Our `kubectl exec` command specified pod id and container name within the pod. `-ti` stands for attach PTY and connect input to the container respectively.
@@ -127,11 +127,9 @@ as you see, our container has it's own separate PID namespace - nginx process is
 ls -l /var/run/secrets/kubernetes.io/serviceaccount/
 ```
 
-K8s also mounted special volume in our container `serviceaccount` with access credentials to talk to K8s API process.
-K8s uses this techinque a lot to mount configuration and secrets into a running container. We will explore this in more detail
-a bit later.
+K8s also mounted special volume in our container `serviceaccount` with access credentials to talk to K8s API process. K8s uses this technique a lot to mount configuration and secrets into a running container. We will explore this in more detail a bit later.
 
-We don't need to always run interactive sessions within container, e.g. we can execute commmand without attaching PTY:
+We don't need to always run interactive sessions within container, e.g. we can execute command without attaching PTY:
 
 ```
 kubectl exec my-nginx-3800858182-auusv -- /bin/ls -l
@@ -160,10 +158,10 @@ drwxr-xr-x.   1 root root   90 May  4 02:38 var
 **Note:** when calling exec, don't forget `--`. You don't need to escape or join command arguments passed to exec really, `kubectl` will simply
 send everything after `--` as is.
 
-### Part 2 Deployments and Replicasets
+### Part 2 Deployments and ReplicaSets
 
 So k8s created 2 Pods for us and that's it? Not really, it's a bit more advanced system and it really thought through the deployment lifecycle.
-K8s created a deployment with replicaset of 2 pods:
+K8s created a deployment with ReplicaSet of 2 pods:
 
 ```
 kubectl get deployments
@@ -213,7 +211,7 @@ Events tell us what happened to this deployment in the past. We'll dig a little 
 
 ### Services
 
-Pods, Replicasets and Deployments and all done with one command! But that's not all. We need a scalable way to access our services, so k8s team came up with
+Pods, ReplicaSets and Deployments and all done with one command! But that's not all. We need a scalable way to access our services, so k8s team came up with
 [Services](http://kubernetes.io/docs/user-guide/services)
 
 Services provide special Virtual IPs load balancing traffic to the set of pods in a replica sets.
@@ -354,7 +352,7 @@ kubectl apply -f my-nginx-new.yaml
 ```
 
 
-We can see that a new replicaset has been created
+We can see that a new ReplicaSet has been created
 
 ```
 kubectl get rs
@@ -365,7 +363,7 @@ my-nginx-3800858182   0         0         2h
 ```
 
 If we look at the events section of the deployment we will see how it performed rolling update
-scaling up new replicaset and scaling down old replicaset:
+scaling up new ReplicaSet and scaling down old ReplicaSet:
 
 
 ```
@@ -525,7 +523,7 @@ Well, our `nginx`es are up and running, let's make sure they actually do somethi
 
 [ConfigMap](http://kubernetes.io/docs/user-guide/configmap/) is a special K8s resource that maps to configuration files or environment variables inside a Pod.
 
-Lets create configmap from a directory. Our `conf.d` contains a `default.conf` file:
+Lets create ConfigMap from a directory. Our `conf.d` contains a `default.conf` file:
 
 ```
 cat conf.d/default.conf
@@ -726,7 +724,7 @@ selecting default max_connections ... 100
 selecting default shared_buffers ... 128MB
 ```
 
-**Note** Our `mattermost-database` is a special snowflake, in real production systems we must create a proper replicaset
+**Note** Our `mattermost-database` is a special snowflake, in real production systems we must create a proper ReplicaSet
 for the stateful service, what is slightly more complicated than this sample.
 
 
@@ -920,5 +918,5 @@ So on my computer I can now open mattermost app using one of the nodes IP:
 
 ### Recap
 
-We've learned several quite important concepts like Services, Pods, Replicasets and
+We've learned several quite important concepts like Services, Pods, ReplicaSets and
 Configmaps. But that's just a small part of what Kubernetes can do. Read more on [Kubernetes portal](http://kubernetes.io)
