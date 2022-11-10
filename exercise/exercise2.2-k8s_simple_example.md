@@ -57,10 +57,12 @@ In order to access your nginx landing page, you also have to make sure that traf
 
 ### Cleanup
 
-To delete the two replicated containers, delete the deployment:
+To delete the two replicated containers, delete the deployment and service:
 
 ```bash
 kubectl delete deployment my-nginx
+kubectl delete service my-nginx
+kubectl delete pod my-nginx
 ```
 
 ### Next: Configuration files

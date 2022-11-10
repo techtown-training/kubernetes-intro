@@ -9,7 +9,7 @@ Everyone says that kubernetes is hard, however this proves otherwise!
 Let's create nginx service.
 
 ```
-kubectl run my-nginx --image=nginx --replicas=2 --port=80 --record
+kubectl create deploy my-nginx --image=nginx:latest --replicas=2 --port=80 --save-config
 kubectl expose deployment my-nginx --type=LoadBalancer --port=80
 ```
 
