@@ -62,6 +62,8 @@ cat .kube/config
 kubectl cluster-info
 ```
 
+---
+
 So far we have installed and configured the master node. But you won't be able to schedule pods yet. Because the cluster doesn't have any worker node, and in case you need just a single node cluster, your master node is not configured to schedule pods.
 
 Let's test it.
@@ -75,7 +77,10 @@ kubectl scale deployment nginx --replicas=3
 kubectl describe nodes <ip-x-x-x-x>
 # check the output of describe -- you will find "Taints: node-role.kubernetes.io/master:NoSchedule"
 
-# delete the deployment we just created
+# Notice the pods are not scheduled but "Pending"
+kubectl get pods
+
+# Let's start over, first delete the deployment we just created
 kubectl delete deployment/nginx
 
 # use master for scheduling
@@ -100,12 +105,12 @@ kubectl expose deployment nginx --port=80 --type=NodePort
 kubectl get deployments,svc -o wide
 ```
 
-#### verify nginx
+#### verify nginx from your K8s master node
 ```bash
-curl <public-ip>:<exposed port>
-OR
 curl <cluster-ip>:80
 ```
+
+---
 
 # Add Persistent storage with OpenEBS
 
