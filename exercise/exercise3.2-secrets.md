@@ -81,6 +81,7 @@ kubectl logs vault-0
 ```
 kubectl port-forward vault-0 8200:8200
 ```
+_note: this will consume the shell, so you will need to start an additional shell to continue_
 
 ```
 export VAULT_ADDR="http://127.0.0.1:8200"
@@ -101,4 +102,10 @@ vault status
 vault write secret/oscon \
   username=admin \
   password=123456789
+```
+
+### Verify the vault entry is added
+
+```
+vault read secret/oscon
 ```
