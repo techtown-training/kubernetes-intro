@@ -4,7 +4,7 @@
 
 # Create a Configmap and check log level
 
-We shall be using the yaml files in this folder. 
+We shall be using the yaml files in this folder.
 
 ## Create a deployment which does not refer to config map ( has log level hard coded as error)
 ```
@@ -19,7 +19,7 @@ $ kubectl get configmaps -o wide
 Check for the running pods and describe the pod, and check logs for the running pod
 ```
 $ kubectl get po,deploy -o wide
-$ kubectl describe <pod_name>
+$ kubectl describe pod <pod_name>
 $ kubectl logs <pod_name>
 ```
 
@@ -52,4 +52,3 @@ $ kubectl logs <pod_name>
 
 
 Ref:- https://www.linkedin.com/learning/learning-kubernetes/next-steps
-
