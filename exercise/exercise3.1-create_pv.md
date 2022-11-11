@@ -82,9 +82,9 @@ hint:- Do we need to create an object to link it to the PVC (persistent Volume C
 Delete the PV, PVC using the
 
 ```
+kubectl delete deploy --all
 kubectl delete pv --all
 kubectl delete pvc --all
-kubectl delete deploy --all
 ```
 
 Create the 2 directories
@@ -99,6 +99,7 @@ Then recreate the PV, and the PVC again
 ```
 kubectl create -f mysql-pv.yaml -f wordpress-pv.yaml
 kubectl create -f mysql-pvc.yaml -f wordpress-pvc.yaml
+kubectl create -f mysql.yaml -f wordpress.yaml
 ```
 
 On Doing the get on PV, and PVC we should see the PVC binded to the PV's
