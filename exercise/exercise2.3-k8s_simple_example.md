@@ -324,18 +324,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    run: my-nginx
+    app: my-nginx
   name: my-nginx
   namespace: default
 spec:
   replicas: 2
   selector:
     matchLabels:
-      run: my-nginx
+      app: my-nginx
   template:
     metadata:
       labels:
-        run: my-nginx
+        app: my-nginx
     spec:
       containers:
       - image: nginx:1.11.5
@@ -418,18 +418,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    run: my-nginx
+    app: my-nginx
   name: my-nginx
   namespace: default
 spec:
   replicas: 2
   selector:
     matchLabels:
-      run: my-nginx
+      app: my-nginx
   template:
     metadata:
       labels:
-        run: my-nginx
+        app: my-nginx
     spec:
       containers:
       - image: nginx:1.91
@@ -569,18 +569,18 @@ cat my-nginx-configmap.yaml
 kind: Deployment
 metadata:
   labels:
-    run: my-nginx
+    app: my-nginx
   name: my-nginx
   namespace: default
 spec:
   replicas: 2
   selector:
     matchLabels:
-      run: my-nginx
+      app: my-nginx
   template:
     metadata:
       labels:
-        run: my-nginx
+        app: my-nginx
     spec:
       containers:
       - image: nginx:1.9.1
