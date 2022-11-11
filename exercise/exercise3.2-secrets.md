@@ -22,7 +22,7 @@ kubectl create secret generic oscon \
   --from-file=config.json
 ```
 
-Describe the `oscon` secret: 
+Describe the `oscon` secret:
 
 ```
 kubectl describe secrets oscon
@@ -52,10 +52,16 @@ In this tutorial you will deploy a Vault server running in dev mode.
 
 [https://www.vaultproject.io/downloads.html](https://www.vaultproject.io/downloads.html)
 
+On ubuntu us this command to install 'vault'
+
+```bash
+sudo snap install vault
+```
+
 ### Deploy a Vault Server
 
 ```
-kubectl create -f https://raw.githubusercontent.com/kelseyhightower/oscon-2017-kubernetes-tutorial/master/statefulsets/vault.yaml
+kubectl create -f https://gist.githubusercontent.com/thejordanclark/a1bedeeeeba0e706a11187fcb1f30812/raw/a8be28a00c9043f3a3720957160ed1466f811861/vault.yaml
 ```
 
 ```

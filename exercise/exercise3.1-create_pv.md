@@ -128,11 +128,11 @@ In the output above, If you have a LoadBalancer us the EXTERNAL-IP column will s
 
 ## Visit your wordpress blog
 
-Use the AWS Machine IP with the NodePort to check the hosted wordpress service
+Use the AWS Machine IP with the NodePort or the LoadBalancer IP to check the hosted Wordpress service.  You may get a Database error but we will not worry about that as that is an application error not a K8s error.
 
 ## Cleaning up
 
-Delete the wordpress service
+Delete the Wordpress service
 
 ```
 kubectl delete service wordpress
