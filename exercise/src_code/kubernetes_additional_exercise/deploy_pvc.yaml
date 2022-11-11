@@ -1,9 +1,12 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: userservice
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: userservice
   template:
     metadata:
       labels:
@@ -21,4 +24,3 @@ spec:
       - name: user-service-war
         persistentVolumeClaim:
           claimName: user-service-war-pv-claim
-
