@@ -124,7 +124,7 @@ Check to see if the pod is running
 kubectl get svc -l app=wordpress
 ```
 
-In the output above, the EXTERNAL-IP column will show the public IP address created for your blog. Save this IP address for the next step.
+In the output above, If you have a LoadBalancer us the EXTERNAL-IP column will show the public IP address created for your blog.  If you do not have a LoadBalancer you will need to us your "PublicIP" and the NodePort. Save this IP address or NodePort for the next step.
 
 ## Visit your wordpress blog
 
