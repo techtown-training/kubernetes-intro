@@ -3,7 +3,7 @@
 ### cd to the source code directory - {exercise/src_code/kubernetes_additional_exercise/ex3.1/}
 
 
-We shall use the 'yaml' files from the current directory 
+We shall use the 'yaml' files from the current directory
 
 ## Create your PersistentVolumes and PersistentVolumeClaims
 
@@ -84,6 +84,7 @@ Delete the PV, PVC using the
 ```
 kubectl delete pv --all
 kubectl delete pvc --all
+kubectl delete deploy --all
 ```
 
 Create the 2 directories
@@ -156,4 +157,3 @@ You will see status:released
 # kubectl delete pv wordpress-volume
 Still the directories you created in the master node won't get deleted, you may delete them manually
 ```
-
