@@ -313,11 +313,7 @@ As you see, `resolv.conf` is set up to point to the DNS resolution service manag
 
 The power of Deployments comes from ability to do smart upgrades and rollbacks in case if something goes wrong.
 
-Let's update our deployment of nginx to the newer version.
-
-```
-cat my-nginx-new.yaml
-```
+Let's update our deployment of nginx to the newer version.  Create the file "my-nginx-new.yaml" with this content:
 
 ```yaml
 apiVersion: apps/v1
@@ -407,11 +403,7 @@ curl -v http://my-nginx
 < Server: nginx/1.9.1
 ```
 
-Let's simulate a situation when a deployment fails and we need to rollback. Our deployment has a typo
-
-```
-cat my-nginx-typo.yaml
-```
+Let's simulate a situation when a deployment fails and we need to rollback. Our deployment has a typo.  Create the file "my-nginx-typo.yaml" with this content:
 
 ```
 apiVersion: apps/v1
@@ -558,12 +550,7 @@ default.conf:	125 bytes
 ```
 
 Every file is now it's own property, e.g. `default.conf`. Now, the trick is to mount this config map in the `/etc/nginx/conf.d/`
-of our nginxes. We will use new deployment for this purpose:
-
-
-```
-cat my-nginx-configmap.yaml
-```
+of our nginxes. We will use new deployment for this purpose. Create the file "my-nginx-configmap.yaml" with this content:
 
 ```
 kind: Deployment
