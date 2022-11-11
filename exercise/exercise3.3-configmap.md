@@ -45,7 +45,7 @@ Check for the running pods and describe the pod, and check logs for the running 
 ```
 $ kubectl get po,deploy -o wide
 
-$ kubectl describe <pod_name>
+$ kubectl describe pod <pod_name>
 
 $ kubectl logs <pod_name>
 ```
